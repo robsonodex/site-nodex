@@ -1,3 +1,5 @@
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Plans from "@/components/Plans";
@@ -6,7 +8,8 @@ import Contact from "@/components/Contact";
 
 export default function Index() {
     return (
-        <div className="min-h-screen bg-background text-foreground animate-fade-in">
+        <div className="min-h-screen bg-background">
+            <Header />
             <main>
                 <Hero />
                 <Services />
@@ -14,6 +17,7 @@ export default function Index() {
                 <Testimonials />
                 <Contact />
             </main>
+            <Footer />
         </div>
     );
 }

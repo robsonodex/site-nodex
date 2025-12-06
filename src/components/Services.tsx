@@ -11,7 +11,8 @@ const services = [
             "Manutenção e otimização de computadores (PC/Mac)",
             "Configuração de PDV, impressoras e fiscais",
             "Correção de lentidão e instabilidade",
-            "Montagem e organização de rede interna"
+            "Montagem e organização de rede interna",
+            "Instalação, configuração e suporte completo em CFTV, novos ou sistemas legados instalados"
         ]
     },
     {
@@ -52,7 +53,7 @@ export default function Services() {
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {services.map((service, index) => (
-                        <Card key={index} className="bg-card border-white/10 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 group">
+                        <Card key={index} className="bg-card border-border hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 group">
                             <CardHeader>
                                 <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
                                     <service.icon className="w-7 h-7" />
@@ -66,7 +67,7 @@ export default function Services() {
                                 <ul className="space-y-3">
                                     {service.items.map((item, idx) => (
                                         <li key={idx} className="flex items-start gap-3 text-sm text-muted-foreground">
-                                            <Check className="w-5 h-5 text-primary shrink-0" />
+                                            <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                                             <span>{item}</span>
                                         </li>
                                     ))}

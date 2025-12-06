@@ -1,123 +1,158 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Menu, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 
-const navItems = [
-    { name: "Início", href: "#hero" },
-    { name: "Serviços", href: "#services" },
-    { name: "Planos", href: "#plans" },
-    { name: "Depoimentos", href: "#testimonials" },
-    { name: "Contato", href: "#contact" },
-];
+const WHATSAPP_NUMBER = "5521965532247";
+const WHATSAPP_MESSAGE = "Olá! Gostaria de saber mais sobre os serviços da Nodex.";
 
 export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
-    const location = useLocation();
-    const isHome = location.pathname === "/";
+    const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            setIsScrolled(window.scrollY > 10);
+            setIsScrolled(window.scrollY > 20);
         };
         window.addEventListener("scroll", handleScroll);
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
-    const scrollToSection = (id: string) => {
-        if (!isHome) return; // Handle cross-page navigation later if needed
-        const element = document.querySelector(id);
-        if (element) {
-            element.scrollIntoView({ behavior: "smooth" });
+    const navLinks = [
+        { name: "Início", href: "#hero" },
+        { name: "Serviços", href: "#services" },
+        { name: "Planos", href: "#plans" },
+        { name: "Contato", href: "#contact" },
+    ];
+
+    const scrollToSection = (href: string) => {
+        setIsOpen(false);
+        if (href.startsWith("#")) {
+            const element = document.querySelector(href);
+            element?.scrollIntoView({ behavior: "smooth" });
         }
     };
+
+    const whatsappLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
     return (
         <header
             className={cn(
                 "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
                 isScrolled
-                    ? "bg-background/80 backdrop-blur-md border-b shadow-sm py-4"
-                    : "bg-transparent py-6"
+                    ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border"
+                    : "bg-transparent"
             )}
         >
-            <div className="container mx-auto px-4 flex items-center justify-between">
-                <Link to="/" className="flex items-center gap-2">
-                    {/* Placeholder for Logo, using text for now or simple icon */}
-                    <div className="font-bold text-2xl tracking-tighter text-primary">
-                        NODEX
-                    </div>
-                </Link>
+            <div className="container mx-auto px-4">
+                <div className="flex items-center justify-between h-16 md:h-20">
+                    {/* Logo */}
+                    <Link to="/" className="flex items-center group">
+                        <img
+                            src="/assets/nodex-logo.png"
+                            alt="Nodex Logo"
+                            className="h-14 w-14 md:h-16 md:w-16 transition-transform group-hover:scale-110"
+                        />
+                    </Link>
 
-                {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-8">
-                    {navItems.map((item) => (
-                        <a
-                            key={item.name}
-                            href={isHome ? item.href : `/${item.href}`}
-                            onClick={(e) => {
-                                if (isHome) {
+                    {/* Desktop Navigation */}
+                    <nav className="hidden md:flex items-center gap-8">
+                        {navLinks.map((link) => (
+                            <a
+                                key={link.name}
+                                href={link.href}
+                                onClick={(e) => {
                                     e.preventDefault();
-                                    scrollToSection(item.href);
-                                }
-                            }}
-                            className="text-sm font-medium hover:text-primary transition-colors"
+                                    scrollToSection(link.href);
+                                }}
+                                className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors"
+                            >
+                                {link.name}
+                            </a>
+                        ))}
+                    </nav>
+
+                    {/* Social Icons + CTA */}
+                    <div className="hidden md:flex items-center gap-4">
+                        <a
+                            href="https://instagram.com/nodexsolucoes"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:opacity-80 transition-opacity"
+                            aria-label="Instagram"
                         >
-                            {item.name}
+                            <img src="/assets/instagram-icon.png" alt="Instagram" className="h-6 w-6" />
                         </a>
-                    ))}
-                </nav>
-
-                <div className="hidden md:flex items-center gap-4">
-                    <Button variant="outline" className="gap-2" asChild>
-                        <a href="https://wa.me/5521965532247" target="_blank" rel="noopener noreferrer">
-                            <Phone className="w-4 h-4" />
-                            (21) 96553-2247
+                        <a
+                            href={whatsappLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:opacity-80 transition-opacity"
+                            aria-label="WhatsApp"
+                        >
+                            <img src="/assets/whatsapp-icon.png" alt="WhatsApp" className="h-6 w-6" />
                         </a>
-                    </Button>
-                    <Button asChild>
-                        <Link to="/painel">Área do Cliente</Link>
-                    </Button>
-                </div>
+                        <Button
+                            variant="default"
+                            size="sm"
+                            asChild
+                            className="bg-primary hover:bg-primary/90"
+                        >
+                            <a href="#contact">
+                                <Phone className="h-4 w-4 mr-2" />
+                                Fale Conosco
+                            </a>
+                        </Button>
+                    </div>
 
-                {/* Mobile Nav */}
-                <div className="md:hidden">
-                    <Sheet>
-                        <SheetTrigger asChild>
+                    {/* Mobile Menu */}
+                    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                        <SheetTrigger asChild className="md:hidden">
                             <Button variant="ghost" size="icon">
-                                <Menu className="w-6 h-6" />
+                                <Menu className="h-6 w-6" />
                             </Button>
                         </SheetTrigger>
-                        <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                            <nav className="flex flex-col gap-6 mt-10">
-                                {navItems.map((item) => (
+                        <SheetContent side="right" className="w-[300px] bg-background">
+                            <nav className="flex flex-col gap-6 mt-8">
+                                {navLinks.map((link) => (
                                     <a
-                                        key={item.name}
-                                        href={isHome ? item.href : `/${item.href}`}
+                                        key={link.name}
+                                        href={link.href}
                                         onClick={(e) => {
-                                            if (isHome) {
-                                                e.preventDefault();
-                                                scrollToSection(item.href);
-                                            }
+                                            e.preventDefault();
+                                            scrollToSection(link.href);
                                         }}
-                                        className="text-lg font-medium hover:text-primary transition-colors"
+                                        className="text-lg font-medium text-foreground hover:text-primary transition-colors"
                                     >
-                                        {item.name}
+                                        {link.name}
                                     </a>
                                 ))}
-                                <div className="flex flex-col gap-4 mt-4">
-                                    <Button variant="outline" className="w-full gap-2" asChild>
-                                        <a href="https://wa.me/5521965532247" target="_blank" rel="noopener noreferrer">
-                                            <Phone className="w-4 h-4" />
-                                            WhatsApp
-                                        </a>
-                                    </Button>
-                                    <Button className="w-full" asChild>
-                                        <Link to="/painel">Área do Cliente</Link>
-                                    </Button>
+                                <div className="flex gap-4 pt-4 border-t border-border">
+                                    <a
+                                        href="https://instagram.com/nodexsolucoes"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:opacity-80 transition-opacity"
+                                    >
+                                        <img src="/assets/instagram-icon.png" alt="Instagram" className="h-7 w-7" />
+                                    </a>
+                                    <a
+                                        href={whatsappLink}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="hover:opacity-80 transition-opacity"
+                                    >
+                                        <img src="/assets/whatsapp-icon.png" alt="WhatsApp" className="h-7 w-7" />
+                                    </a>
                                 </div>
+                                <Button className="w-full mt-4" asChild>
+                                    <a href="#contact">
+                                        <Phone className="h-4 w-4 mr-2" />
+                                        Fale Conosco
+                                    </a>
+                                </Button>
                             </nav>
                         </SheetContent>
                     </Sheet>

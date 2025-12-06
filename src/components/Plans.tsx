@@ -3,6 +3,25 @@ import { Check, Info } from "lucide-react";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
+const WHATSAPP_NUMBER = "5521965532247";
+
+// Função para gerar mensagem WhatsApp personalizada
+const getWhatsAppLink = (planName: string) => {
+    const message = `Olá! Tenho interesse no plano *${planName}* da Nodex.
+
+📋 *Planos Disponíveis:*
+1. Essencial - R$ 319/mês
+2. Profissional - R$ 649/mês
+3. Avançado - R$ 1.190/mês
+4. Corporativo Start - A partir de R$ 2.400/mês
+5. Corporativo Plus - A partir de R$ 3.200/mês
+6. Corporativo Enterprise - Sob contrato
+
+Gostaria de saber mais sobre o plano *${planName}* e como ele pode atender minhas necessidades.`;
+
+    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+};
+
 const plans = [
     {
         name: "Essencial",
@@ -23,7 +42,8 @@ const plans = [
             "Visita presencial: R$ 180 / visita",
         ],
         highlight: false,
-        cta: "Escolher Essencial"
+        cta: "Escolher Essencial",
+        type: "standard"
     },
     {
         name: "Profissional",
@@ -46,7 +66,8 @@ const plans = [
             "Visita adicional: R$ 180 / visita",
         ],
         highlight: true,
-        cta: "Escolher Profissional"
+        cta: "Escolher Profissional",
+        type: "standard"
     },
     {
         name: "Avançado",
@@ -69,7 +90,8 @@ const plans = [
             "Visita adicional: R$ 180 / visita",
         ],
         highlight: false,
-        cta: "Escolher Avançado"
+        cta: "Escolher Avançado",
+        type: "standard"
     }
 ];
 
@@ -89,7 +111,8 @@ const corporatePlans = [
             "SLA: até 30 minutos",
             "Até 15 dispositivos",
         ],
-        extras: ["Dispositivo adicional: R$ 149 / mês"]
+        extras: ["Dispositivo adicional: R$ 149 / mês"],
+        type: "corporate"
     },
     {
         name: "Corporativo Plus",
@@ -105,7 +128,8 @@ const corporatePlans = [
             "Suporte prioritário",
             "Até 20 dispositivos",
         ],
-        extras: ["Dispositivo adicional: R$ 149 / mês"]
+        extras: ["Dispositivo adicional: R$ 149 / mês"],
+        type: "corporate"
     },
     {
         name: "Corporativo Enterprise",
@@ -120,11 +144,23 @@ const corporatePlans = [
             "Plantão técnico permanente",
             "Visitas presenciais contratuais",
         ],
-        extras: ["Valores definidos em contrato"]
+        extras: ["Valores definidos em contrato"],
+        type: "corporate"
     }
 ];
 
 export default function Plans() {
+    const handlePlanClick = (planName: string, type: string) => {
+        if (type === "corporate") {
+            // Scroll to contact form
+            const contactSection = document.querySelector("#contact");
+            contactSection?.scrollIntoView({ behavior: "smooth" });
+        } else {
+            // Open WhatsApp
+            window.open(getWhatsAppLink(planName), "_blank");
+        }
+    };
+
     return (
         <section id="plans" className="py-20 bg-muted/30">
             <div className="container mx-auto px-4">
@@ -137,9 +173,16 @@ export default function Plans() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+                {/* Standard Plans */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 mb-20">
                     {plans.map((plan, index) => (
-                        <Card key={index} className={`relative flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${plan.highlight ? 'border-primary shadow-lg scale-105 z-10' : 'border-border'}`}>
+                        <Card
+                            key={index}
+                            className={`relative flex flex-col h-full transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group ${plan.highlight
+                                    ? 'border-primary shadow-lg md:scale-105 z-10'
+                                    : 'border-border hover:border-primary/50'
+                                }`}
+                        >
                             {plan.highlight && (
                                 <Badge className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1">
                                     Mais Popular
@@ -147,30 +190,30 @@ export default function Plans() {
                             )}
                             <CardHeader className="text-center pb-2">
                                 <CardTitle className="text-2xl font-bold text-foreground">{plan.name}</CardTitle>
-                                <CardDescription className="text-muted-foreground min-h-[40px] flex items-center justify-center">
+                                <CardDescription className="text-muted-foreground min-h-[40px] flex items-center justify-center text-sm">
                                     {plan.description}
                                 </CardDescription>
                             </CardHeader>
                             <CardContent className="flex-grow pt-4">
                                 <div className="text-center mb-6">
-                                    <span className="text-4xl font-bold text-foreground">{plan.price}</span>
-                                    <span className="text-muted-foreground text-sm">{plan.period}</span>
+                                    <span className="text-3xl md:text-4xl font-bold text-foreground">{plan.price}</span>
+                                    <span className="text-muted-foreground text-sm ml-1">{plan.period}</span>
                                 </div>
-                                <ul className="space-y-3 mb-6">
+                                <ul className="space-y-2 mb-6">
                                     {plan.features.map((feature, i) => (
-                                        <li key={i} className="flex items-start text-sm text-foreground/80">
+                                        <li key={i} className="flex items-start text-xs md:text-sm text-foreground/80">
                                             <Check className="h-4 w-4 text-primary mr-2 mt-0.5 shrink-0" />
                                             <span>{feature}</span>
                                         </li>
                                     ))}
                                 </ul>
                                 {plan.extras && plan.extras.length > 0 && (
-                                    <div className="border-t pt-4">
+                                    <div className="border-t border-border pt-4">
                                         <p className="text-xs font-semibold text-muted-foreground mb-2 text-center uppercase tracking-wider">Adicionais</p>
                                         <ul className="space-y-2">
                                             {plan.extras.map((extra, i) => (
                                                 <li key={i} className="flex items-center text-xs text-muted-foreground justify-center">
-                                                    <Info className="h-3 w-3 mr-1.5" />
+                                                    <Info className="h-3 w-3 mr-1.5 shrink-0" />
                                                     {extra}
                                                 </li>
                                             ))}
@@ -179,7 +222,13 @@ export default function Plans() {
                                 )}
                             </CardContent>
                             <CardFooter className="pt-2 pb-6">
-                                <Button className={`w-full ${plan.highlight ? 'bg-primary hover:bg-primary/90' : 'bg-secondary text-secondary-foreground hover:bg-secondary/90'}`}>
+                                <Button
+                                    onClick={() => handlePlanClick(plan.name, plan.type)}
+                                    className={`w-full transition-all ${plan.highlight
+                                            ? 'bg-primary hover:bg-primary/90'
+                                            : 'bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground group-hover:bg-primary group-hover:text-primary-foreground'
+                                        }`}
+                                >
                                     {plan.cta}
                                 </Button>
                             </CardFooter>
@@ -187,6 +236,7 @@ export default function Plans() {
                     ))}
                 </div>
 
+                {/* Corporate Plans Divider */}
                 <div className="text-center mb-12">
                     <h3 className="text-2xl md:text-3xl font-bold text-foreground mb-4">
                         Planos Corporativos – Infraestrutura Crítica
@@ -196,21 +246,22 @@ export default function Plans() {
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Corporate Plans */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {corporatePlans.map((plan, index) => (
-                        <Card key={index} className="flex flex-col h-full bg-card/50 border-primary/20 hover:border-primary/50 transition-colors">
+                        <Card key={index} className="flex flex-col h-full bg-card border-primary/20 hover:border-primary/50 transition-all duration-300 hover:shadow-xl group">
                             <CardHeader>
                                 <CardTitle className="text-xl font-bold text-primary">{plan.name}</CardTitle>
                                 <div className="mt-2">
                                     <span className="text-2xl font-bold text-foreground">{plan.price}</span>
                                     <span className="text-sm text-muted-foreground ml-1">{plan.period}</span>
                                 </div>
-                                <CardDescription className="mt-2">{plan.description}</CardDescription>
+                                <CardDescription className="mt-2 text-sm">{plan.description}</CardDescription>
                             </CardHeader>
                             <CardContent className="flex-grow">
                                 <ul className="space-y-2">
                                     {plan.features.map((feature, i) => (
-                                        <li key={i} className="flex items-start text-sm text-foreground/80">
+                                        <li key={i} className="flex items-start text-xs md:text-sm text-foreground/80">
                                             <Check className="h-4 w-4 text-primary mr-2 mt-0.5 shrink-0" />
                                             <span>{feature}</span>
                                         </li>
@@ -220,7 +271,7 @@ export default function Plans() {
                                     <div className="mt-4 pt-4 border-t border-border/50">
                                         {plan.extras.map((extra, i) => (
                                             <p key={i} className="text-xs text-muted-foreground flex items-center">
-                                                <Info className="h-3 w-3 mr-1.5" />
+                                                <Info className="h-3 w-3 mr-1.5 shrink-0" />
                                                 {extra}
                                             </p>
                                         ))}
@@ -228,7 +279,11 @@ export default function Plans() {
                                 )}
                             </CardContent>
                             <CardFooter>
-                                <Button variant="outline" className="w-full border-primary/50 hover:bg-primary/10 hover:text-primary">
+                                <Button
+                                    onClick={() => handlePlanClick(plan.name, plan.type)}
+                                    variant="outline"
+                                    className="w-full border-primary/50 hover:bg-primary/10 hover:text-primary group-hover:bg-primary group-hover:text-primary-foreground group-hover:border-primary transition-all"
+                                >
                                     Falar com Consultor
                                 </Button>
                             </CardFooter>

@@ -1,67 +1,76 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ShieldCheck, Zap, Globe } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
     return (
-        <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-            {/* Background with gradient and grid */}
-            <div className="absolute inset-0 bg-background z-0">
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/20 via-background to-background" />
-                <div className="absolute inset-0 grid-pattern opacity-[0.2]" style={{ backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
+        <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+            {/* Background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5"></div>
+
+            {/* Animated background elements */}
+            <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
             </div>
 
-            <div className="container relative z-10 px-4 text-center">
-                <div className="animate-fade-in-up space-y-6 max-w-4xl mx-auto">
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary/50 border border-secondary text-sm text-primary mb-8 animate-fade-in">
-                        <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                        </span>
-                        Soluções completas em TI para sua empresa
+            <div className="container mx-auto px-4 relative z-10">
+                <div className="max-w-4xl mx-auto text-center space-y-8">
+                    {/* Badge */}
+                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+                        <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                        <span className="text-sm font-medium text-primary">Disponível 24/7 para atendimento</span>
                     </div>
 
-                    <h1 className="text-5xl md:text-7xl font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-blue-100 to-gray-400">
-                        Infraestrutura, Segurança <br className="hidden md:block" /> e Tecnologia.
+                    {/* Main heading */}
+                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/80">
+                            Infraestrutura, Segurança
+                        </span>
+                        <br />
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400">
+                            e Tecnologia.
+                        </span>
                     </h1>
 
-                    <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                        Transformamos desafios técnicos em resultados. Suporte especializado, redes de alta performance e desenvolvimento sob medida.
+                    {/* Description */}
+                    <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                        Transforme desafios tecnológicos em vantagens competitivas.
+                        Suporte especializado, redes de alta performance e desenvolvimento sob medida.
                     </p>
 
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
-                        <Button size="lg" className="h-14 px-8 text-lg gap-2 shadow-lg shadow-primary/25" asChild>
+                    {/* CTA Buttons */}
+                    <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+                        <Button size="lg" className="text-lg px-8 group" asChild>
                             <a href="#contact">
-                                Falar com Especialista
-                                <ArrowRight className="w-5 h-5" />
+                                Fale Conosco
+                                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                             </a>
                         </Button>
-                        <Button size="lg" variant="outline" className="h-14 px-8 text-lg" asChild>
-                            <a href="#services">
-                                Conhecer Serviços
-                            </a>
+                        <Button size="lg" variant="outline" className="text-lg px-8" asChild>
+                            <a href="#services">Nossos Serviços</a>
                         </Button>
                     </div>
 
-                    {/* Features Highlights */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 text-left">
-                        <div className="flex flex-col gap-2 p-6 rounded-2xl bg-secondary/20 border border-white/5 backdrop-blur-sm hover:border-primary/50 transition-colors">
-                            <Zap className="w-10 h-10 text-primary mb-2" />
-                            <h3 className="font-semibold text-lg">Alta Performance</h3>
-                            <p className="text-sm text-muted-foreground">Otimização de sistemas e redes para máxima velocidade.</p>
+                    {/* Stats */}
+                    <div className="grid grid-cols-3 gap-8 pt-12 max-w-2xl mx-auto">
+                        <div className="space-y-2">
+                            <div className="text-3xl md:text-4xl font-bold text-primary">5+</div>
+                            <div className="text-sm text-muted-foreground">Anos de Experiência</div>
                         </div>
-                        <div className="flex flex-col gap-2 p-6 rounded-2xl bg-secondary/20 border border-white/5 backdrop-blur-sm hover:border-primary/50 transition-colors">
-                            <ShieldCheck className="w-10 h-10 text-primary mb-2" />
-                            <h3 className="font-semibold text-lg">Segurança Total</h3>
-                            <p className="text-sm text-muted-foreground">Proteção de dados e monitoramento constante.</p>
+                        <div className="space-y-2">
+                            <div className="text-3xl md:text-4xl font-bold text-primary">100+</div>
+                            <div className="text-sm text-muted-foreground">Clientes Atendidos</div>
                         </div>
-                        <div className="flex flex-col gap-2 p-6 rounded-2xl bg-secondary/20 border border-white/5 backdrop-blur-sm hover:border-primary/50 transition-colors">
-                            <Globe className="w-10 h-10 text-primary mb-2" />
-                            <h3 className="font-semibold text-lg">Presença Digital</h3>
-                            <p className="text-sm text-muted-foreground">Sites e apps modernos para alavancar seu negócio.</p>
+                        <div className="space-y-2">
+                            <div className="text-3xl md:text-4xl font-bold text-primary">24/7</div>
+                            <div className="text-sm text-muted-foreground">Suporte Disponível</div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            {/* Bottom gradient fade */}
+            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent"></div>
         </section>
     );
 }

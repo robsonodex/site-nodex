@@ -1,51 +1,59 @@
-import { Quote } from "lucide-react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Star } from "lucide-react";
 
 const testimonials = [
     {
-        name: "Roberto Silva",
-        role: "Diretor Comercial, Imobiliária Silva",
-        content: "A Nodex transformou nossa rede. Antes tínhamos quedas diárias que atrapalhavam as vendas. Hoje tudo roda liso, e o suporte é imediato quando precisamos.",
-        avatar: "RS"
+        name: "Carlos Silva",
+        company: "Silva & Associados",
+        role: "Diretor de TI",
+        content: "A Nodex transformou nossa infraestrutura de TI. O suporte é excepcional e a equipe extremamente competente. Recomendo!",
+        rating: 5
     },
     {
-        name: "Cláudia Mendes",
-        role: "Proprietária, Clínica Sorrir",
-        content: "Excelente atendimento. Configuraram todo o sistema da clínica e o Wi-Fi para os pacientes. Profissionais muito educados e técnicos.",
-        avatar: "CM"
+        name: "Marina Costa",
+        company: "Costa Clínica Médica",
+        role: "Administradora",
+        content: "Implementaram nossa rede Wi-Fi e sistema de gestão. Tudo funcionando perfeitamente. Atendimento rápido e profissional.",
+        rating: 5
     },
     {
-        name: "Marcelo Oliveira",
-        role: "Síndico, Condomínio Reserva Azul",
-        content: "Contratamos a manutenção mensal para o condomínio. As visitas preventivas reduziram muito os problemas com portões e câmeras. Recomendo.",
-        avatar: "MO"
+        name: "Roberto Alves",
+        company: "Alves Comércio",
+        role: "Proprietário",
+        content: "Suporte técnico impecável. Sempre que precisamos, a equipe está pronta para resolver qualquer problema. Parceria de confiança!",
+        rating: 5
     }
 ];
 
 export default function Testimonials() {
     return (
-        <section id="testimonials" className="py-24 bg-secondary/10">
+        <section id="testimonials" className="py-24 bg-background">
             <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto mb-16">
                     <h2 className="text-3xl md:text-5xl font-bold mb-6">O que dizem nossos clientes</h2>
+                    <p className="text-lg text-muted-foreground">
+                        Confiança construída através de resultados reais e parcerias duradouras.
+                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {testimonials.map((testimonial, index) => (
-                        <div key={index} className="bg-background p-8 rounded-2xl border border-border shadow-sm">
-                            <Quote className="w-10 h-10 text-primary/20 mb-6" />
-                            <p className="text-lg text-muted-foreground mb-8 italic">
-                                "{testimonial.content}"
-                            </p>
-                            <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
-                                    {testimonial.avatar}
+                        <Card key={index} className="bg-card border-border hover:border-primary/50 transition-all duration-300">
+                            <CardHeader>
+                                <div className="flex gap-1 mb-4">
+                                    {[...Array(testimonial.rating)].map((_, i) => (
+                                        <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                                    ))}
                                 </div>
-                                <div>
-                                    <h4 className="font-bold text-foreground">{testimonial.name}</h4>
-                                    <p className="text-sm text-muted-foreground">{testimonial.role}</p>
-                                </div>
-                            </div>
-                        </div>
+                                <CardTitle className="text-lg">{testimonial.name}</CardTitle>
+                                <CardDescription>
+                                    {testimonial.role} • {testimonial.company}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-muted-foreground italic">"{testimonial.content}"</p>
+                            </CardContent>
+                        </Card>
                     ))}
                 </div>
             </div>
