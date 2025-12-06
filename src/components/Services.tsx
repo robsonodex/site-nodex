@@ -1,5 +1,6 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Gauge, Wifi, Code2, Check } from "lucide-react";
+import FadeIn from "@/components/FadeIn";
 
 const services = [
     {
@@ -44,36 +45,40 @@ export default function Services() {
     return (
         <section id="services" className="py-24 bg-secondary/20 relative overflow-hidden">
             <div className="container mx-auto px-4">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 className="text-3xl md:text-5xl font-bold mb-6">Nossos Serviços</h2>
-                    <p className="text-lg text-muted-foreground">
-                        Oferecemos um ecossistema completo de soluções tecnológicas para resolver problemas e impulsionar o crescimento do seu negócio.
-                    </p>
-                </div>
+                <FadeIn>
+                    <div className="text-center max-w-3xl mx-auto mb-16">
+                        <h2 className="text-3xl md:text-5xl font-bold mb-6">Nossos Serviços</h2>
+                        <p className="text-lg text-muted-foreground">
+                            Oferecemos um ecossistema completo de soluções tecnológicas para resolver problemas e impulsionar o crescimento do seu negócio.
+                        </p>
+                    </div>
+                </FadeIn>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {services.map((service, index) => (
-                        <Card key={index} className="bg-card border-border hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 group">
-                            <CardHeader>
-                                <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
-                                    <service.icon className="w-7 h-7" />
-                                </div>
-                                <CardTitle className="text-xl font-bold">{service.category}</CardTitle>
-                                <CardDescription className="text-base mt-2">
-                                    {service.description}
-                                </CardDescription>
-                            </CardHeader>
-                            <CardContent>
-                                <ul className="space-y-3">
-                                    {service.items.map((item, idx) => (
-                                        <li key={idx} className="flex items-start gap-3 text-sm text-muted-foreground">
-                                            <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                                            <span>{item}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </CardContent>
-                        </Card>
+                        <FadeIn key={index} delay={index * 0.2}>
+                            <Card className="bg-card border-border hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 group h-full">
+                                <CardHeader>
+                                    <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
+                                        <service.icon className="w-7 h-7" />
+                                    </div>
+                                    <CardTitle className="text-xl font-bold">{service.category}</CardTitle>
+                                    <CardDescription className="text-base mt-2">
+                                        {service.description}
+                                    </CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <ul className="space-y-3">
+                                        {service.items.map((item, idx) => (
+                                            <li key={idx} className="flex items-start gap-3 text-sm text-muted-foreground">
+                                                <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" />
+                                                <span>{item}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </CardContent>
+                            </Card>
+                        </FadeIn>
                     ))}
                 </div>
             </div>

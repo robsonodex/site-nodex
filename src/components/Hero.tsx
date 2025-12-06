@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Hero() {
     return (
@@ -14,12 +15,22 @@ export default function Hero() {
             </div>
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="max-w-4xl mx-auto text-center space-y-8">
+                <motion.div
+                    className="max-w-4xl mx-auto text-center space-y-8"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                >
                     {/* Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+                    <motion.div
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm"
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                    >
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                         <span className="text-sm font-medium text-primary">Disponível 24/7 para atendimento</span>
-                    </div>
+                    </motion.div>
 
                     {/* Main heading */}
                     <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight">
@@ -66,7 +77,7 @@ export default function Hero() {
                             <div className="text-sm text-muted-foreground">Suporte Disponível</div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             {/* Bottom gradient fade */}
